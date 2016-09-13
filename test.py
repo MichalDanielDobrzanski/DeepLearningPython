@@ -1,9 +1,9 @@
 """
     Testing code for different neural network configurations.
-    Adapted for Python 3.4.3
+    Adapted for Python 3.5.2
 
     Usage in shell:
-        python3 test.py
+        python3.5 test.py
 
     Network (network.py and network2.py) parameters:
         2nd param is epochs count
@@ -64,12 +64,6 @@ net.SGD(training_data[:1000], 400, 10, 0.5,
     monitor_training_accuracy=True)
 '''
 
-net = network2.Network([784, 30, 10], cost=network2.CrossEntropyCost)
-net.SGD(training_data[:1000], 30, 10, 0.5,
-    lmbda=5.0,
-    evaluation_data=validation_data,
-    monitor_evaluation_accuracy=True)
-
 # chapter 3 - Early stopping implemented
 '''
 net = network2.Network([784, 30, 10], cost=network2.CrossEntropyCost)
@@ -80,6 +74,16 @@ net.SGD(training_data[:1000], 30, 10, 0.5,
     monitor_training_cost=True,
     early_stopping_n=10)
 '''
+
+# chapter 4 - The vanishing gradient problem - deep networks are hard to train with simple SGD algorithm
+# this network learns much slower than a shallow one.
+net = network2.Network([784, 30, 30, 30, 30, 10], cost=network2.CrossEntropyCost)
+net.SGD(training_data, 30, 10, 0.1,
+    lmbda=5.0,
+    evaluation_data=validation_data,
+    monitor_evaluation_accuracy=True)
+
+
 
 # ----------------------
 # - network3.py example:
