@@ -102,7 +102,7 @@ net.SGD(training_data, 30, 10, 0.1,
 
 """
     Testing function to check whether your computations have been made on CPU or GPU.
-    If the result is 'Used the cpu' and you want to have it in gpu, do the following:
+    If the result is 'Used the cpu' and you want to have it in gpu,     do the following:
     1) install theano:
         sudo python3.5 -m pip install Theano
     2) download and install the latest cuda:
@@ -111,7 +111,12 @@ net.SGD(training_data, 30, 10, 0.1,
         http://askubuntu.com/questions/760242/how-can-i-force-16-04-to-add-a-repository-even-if-it-isnt-considered-secure-eno
         You may also want to grab the proper NVidia driver, choose it form there:
         System Settings > Software & Updates > Additional Drivers.
-    3)
+    3) should work, run it with:
+        THEANO_FLAGS=mode=FAST_RUN,device=gpu,floatX=float32 python3.5 test.py
+        http://deeplearning.net/software/theano/tutorial/using_gpu.html
+    4) Optionally, you can add cuDNN support from:
+        https://developer.nvidia.com/cudnn
+
 
 """
 
@@ -120,7 +125,7 @@ def testTheano():
     import theano.tensor as T
     import numpy
     import time
-
+    print("Testing Theano library...")
     vlen = 10 * 30 * 768  # 10 x #cores x # threads per core
     iters = 1000
 
@@ -140,13 +145,14 @@ def testTheano():
         print('Used the gpu')
 
 # Perform check:
-#testTheano()
+testTheano()
 
 
 # ----------------------
 # - network3.py example:
 import network3
 
+'''
 from network3 import ConvPoolLayer, FullyConnectedLayer, SoftmaxLayer
 training_data, validation_data, test_data = network3.load_data_shared()
 mini_batch_size = 10
@@ -154,3 +160,4 @@ net = network3.Network([
     FullyConnectedLayer(n_in=784, n_out=100),
     SoftmaxLayer(n_in=100, n_out=10)], mini_batch_size)
 net.SGD(training_data, 60, mini_batch_size, 0.1, validation_data, test_data)
+'''
