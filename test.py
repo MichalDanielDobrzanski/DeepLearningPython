@@ -97,11 +97,16 @@ net.SGD(training_data, 30, 10, 0.1,
     Tutorial:
     http://deeplearning.net/software/theano/install_ubuntu.html#install-ubuntu
 
+    The following command will update only Theano:
+        sudo pip install --upgrade --no-deps theano
+
+    The following command will update Theano and Numpy/Scipy (warning bellow):
+        sudo pip install --upgrade theano
 
 """
 
 """
-    Testing function to check whether your computations have been made on CPU or GPU.
+    Below, there is a testing function to check whether your computations have been made on CPU or GPU.
     If the result is 'Used the cpu' and you want to have it in gpu,     do the following:
     1) install theano:
         sudo python3.5 -m pip install Theano
@@ -119,7 +124,6 @@ net.SGD(training_data, 30, 10, 0.1,
 
 
 """
-
 def testTheano():
     from theano import function, config, shared, sandbox
     import theano.tensor as T
@@ -143,21 +147,64 @@ def testTheano():
         print('Used the cpu')
     else:
         print('Used the gpu')
-
 # Perform check:
-testTheano()
+#testTheano()
 
 
 # ----------------------
 # - network3.py example:
 import network3
+from network3 import Network, ConvPoolLayer, FullyConnectedLayer, SoftmaxLayer # softmax plus log-likelihood cost is more common in modern image classification networks.
 
-'''
-from network3 import ConvPoolLayer, FullyConnectedLayer, SoftmaxLayer
+# read data:
 training_data, validation_data, test_data = network3.load_data_shared()
+# mini-batch size:
 mini_batch_size = 10
-net = network3.Network([
+
+# chapter 6 - shallow architecture using just a single hidden layer, containing 100 hidden neurons.
+'''
+net = Network([
     FullyConnectedLayer(n_in=784, n_out=100),
     SoftmaxLayer(n_in=100, n_out=10)], mini_batch_size)
 net.SGD(training_data, 60, mini_batch_size, 0.1, validation_data, test_data)
 '''
+
+# chapter 6 - 5x5 local receptive fields, 20 feature maps, max-pooling layer 2x2
+'''
+net = Network([
+    ConvPoolLayer(image_shape=(mini_batch_size, 1, 28, 28),
+                  filter_shape=(20, 1, 5, 5),
+                  poolsize=(2, 2)),
+    FullyConnectedLayer(n_in=20*12*12, n_out=100),
+    SoftmaxLayer(n_in=100, n_out=10)], mini_batch_size)
+net.SGD(training_data, 60, mini_batch_size, 0.1, validation_data, test_data)
+'''
+
+# chapter 6 - inserting a second convolutional-pooling layer to the previous example => better accuracy
+'''
+net = Network([
+    ConvPoolLayer(image_shape=(mini_batch_size, 1, 28, 28),
+                  filter_shape=(20, 1, 5, 5),
+                  poolsize=(2, 2)),
+    ConvPoolLayer(image_shape=(mini_batch_size, 20, 12, 12),
+                  filter_shape=(40, 20, 5, 5),
+                  poolsize=(2, 2)),
+    FullyConnectedLayer(n_in=40*4*4, n_out=100),
+    SoftmaxLayer(n_in=100, n_out=10)], mini_batch_size)
+net.SGD(training_data, 60, mini_batch_size, 0.1, validation_data, test_data)
+'''
+
+# chapter 6 -  rectified linear units and some l2 regularization (lmbda=0.1) => even better accuracy
+from network3 import ReLU
+net = Network([
+    ConvPoolLayer(image_shape=(mini_batch_size, 1, 28, 28),
+                  filter_shape=(20, 1, 5, 5),
+                  poolsize=(2, 2),
+                  activation_fn=ReLU),
+    ConvPoolLayer(image_shape=(mini_batch_size, 20, 12, 12),
+                  filter_shape=(40, 20, 5, 5),
+                  poolsize=(2, 2),
+                  activation_fn=ReLU),
+    FullyConnectedLayer(n_in=40*4*4, n_out=100, activation_fn=ReLU),
+    SoftmaxLayer(n_in=100, n_out=10)], mini_batch_size)
+net.SGD(training_data, 60, mini_batch_size, 0.03, validation_data, test_data, lmbda=0.1)
