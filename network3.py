@@ -39,7 +39,7 @@ import theano.tensor as T
 from theano.tensor.nnet import conv
 from theano.tensor.nnet import softmax
 from theano.tensor import shared_randomstreams
-from theano.tensor.signal import downsample
+from theano.tensor.signal.pool import pool_2d
 
 # Activation functions for neurons
 def linear(z): return z
@@ -227,8 +227,8 @@ class ConvPoolLayer(object):
         conv_out = conv.conv2d(
             input=self.inpt, filters=self.w, filter_shape=self.filter_shape,
             image_shape=self.image_shape)
-        pooled_out = downsample.max_pool_2d(
-            input=conv_out, ds=self.poolsize, ignore_border=True)
+        pooled_out = pool_2d(
+            input=conv_out, ws=self.poolsize, ignore_border=True)
         self.output = self.activation_fn(
             pooled_out + self.b.dimshuffle('x', 0, 'x', 'x'))
         self.output_dropout = self.output # no dropout in the convolutional layers
