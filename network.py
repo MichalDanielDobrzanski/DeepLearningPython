@@ -34,14 +34,17 @@ class Network(object):
         ever used in computing the outputs from later layers."""
         self.num_layers = len(sizes)
         self.sizes = sizes
+        # Initialize biases and weights for all layers
         self.biases = [np.random.randn(y, 1) for y in sizes[1:]]
         self.weights = [np.random.randn(y, x)
                         for x, y in zip(sizes[:-1], sizes[1:])]
 
     def feedforward(self, a):
         """Return the output of the network if ``a`` is input."""
+        
         for b, w in zip(self.biases, self.weights):
             a = sigmoid(np.dot(w, a)+b)
+        # Return an output vector for each layer
         return a
 
     def SGD(self, training_data, epochs, mini_batch_size, eta,
@@ -64,6 +67,7 @@ class Network(object):
 
         for j in range(epochs):
             random.shuffle(training_data)
+            # Divide all samples in several mini_batches and learn
             mini_batches = [
                 training_data[k:k+mini_batch_size]
                 for k in range(0, n, mini_batch_size)]
@@ -79,6 +83,7 @@ class Network(object):
         gradient descent using backpropagation to a single mini batch.
         The ``mini_batch`` is a list of tuples ``(x, y)``, and ``eta``
         is the learning rate."""
+        # List of zero tuple for nabla_b and nabla_w
         nabla_b = [np.zeros(b.shape) for b in self.biases]
         nabla_w = [np.zeros(w.shape) for w in self.weights]
         for x, y in mini_batch:
@@ -107,6 +112,7 @@ class Network(object):
             activation = sigmoid(z)
             activations.append(activation)
         # backward pass
+        # delta, nabla_b, nabla_w for final layer
         delta = self.cost_derivative(activations[-1], y) * \
             sigmoid_prime(zs[-1])
         nabla_b[-1] = delta
