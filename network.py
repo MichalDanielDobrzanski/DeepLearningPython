@@ -70,7 +70,7 @@ class Network(object):
             for mini_batch in mini_batches:
                 self.update_mini_batch(mini_batch, eta)
             if test_data:
-                print("Epoch {} : {} / {}".format(j,self.evaluate(test_data),n_test));
+                print("Epoch {} : {} / {}".format(j,self.evaluate(test_data),n_test))
             else:
                 print("Epoch {} complete".format(j))
 
