@@ -8,6 +8,15 @@ The testing file (**test.py**) contains all three networks (network.py, network2
 
 ## Just type at shell: **python3.5 test.py**
 
-In test.py there are examples of networks configurations with proper comments. I did that to relate with particular chapters from the book.
+```
+UNet-AerialSegmentation
+       		   ├── dataloader.py
+       		   ├── losses.py
+      		   ├── model.py
+      		   ├── train.py
+       		   └── inference.py
 
+```
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1OAzGo1E5uKuKw1R2Cbce2KKxpvHPaLyY?usp=sharing)
 
