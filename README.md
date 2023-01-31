@@ -12,7 +12,7 @@ The best way to run the code is to use the colab notebook provided in bellow lin
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1OAzGo1E5uKuKw1R2Cbce2KKxpvHPaLyY?usp=sharing)
 
 ## Scripts
-To run the scripts, go to the chapter_codes folder, open terminal, and type:
+To run the scripts, go to the chapter_codes folder, open the terminal, and type:
 ```bash
 python chapter1-data.py
 ```
