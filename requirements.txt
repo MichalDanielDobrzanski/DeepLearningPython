@@ -1,0 +1,9 @@
+# pip install -r requirements.txt
+
+# base ----------------------------------------
+
+os-sys
+numpy
+matplotlib
+theano
+
