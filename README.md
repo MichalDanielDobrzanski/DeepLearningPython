@@ -6,8 +6,14 @@ These scrips are updated ones from the **neuralnetworksanddeeplearning.com** git
 
 The testing file (**test.py**) contains all three networks (network.py, network2.py, network3.py) from the book and it is the starting point to run (i.e. *train and evaluate*) them.
 
-## Just type at shell: **python3.5 test.py**
+## Google Colab
+The best way to run the code is to use the colab notebook provided in bellow link.
 
-In test.py there are examples of networks configurations with proper comments. I did that to relate with particular chapters from the book.
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1OAzGo1E5uKuKw1R2Cbce2KKxpvHPaLyY?usp=sharing)
 
+## Scripts
+To run the scripts, go to the chapter_codes folder, open the terminal, and type:
+```bash
+python chapter1-data.py
+```
 
